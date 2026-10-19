@@ -1,0 +1,49 @@
+/* Main task card */
+.task-card {
+    width: 400px;
+    margin: 15px 0;
+    padding: 15px;
+
+    /* Pending task is red */
+    background-color: red;
+
+    color: white;
+
+    border: 2px solid black;
+    border-radius: 8px;
+}
+
+/* Completed task is green */
+.task-card.completed {
+    background-color: green;
+}
+
+/* Edit section */
+/* .edit-box { */
+    /* width: 400px;
+    margin: 20px 0;
+    padding: 15px;
+
+    background-color: lightgray;
+
+    border: 2px solid black;
+    border-radius: 8px; */
+/* } */
+
+/* Style inputs */
+input {
+    margin: 5px;
+    padding: 8px;
+}
+
+/* Style buttons */
+button {
+    margin: 5px;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.task-card.completed {
+  text-decoration: line-through;
+  text-decoration-color: #ff0000; /* Red line, original text color stays same */
+}
