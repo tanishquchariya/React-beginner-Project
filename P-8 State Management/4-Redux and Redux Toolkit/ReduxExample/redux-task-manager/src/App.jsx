@@ -17,6 +17,7 @@ function App() {
 
   const [editingId, setEditingId] = useState(null);
   const [editTitle, setEditTitle] = useState("");
+
   // Read tasks from the Redux store
   const tasks = useSelector((state) => state.tasks.items);
 
@@ -38,8 +39,7 @@ function App() {
     setEditTitle(task.title);
   }
   function handleSaveEdit(taskId) {
-    dispatch(
-      editTask({
+    dispatch(editTask({
         id: taskId,
         title: editTitle,
       }),

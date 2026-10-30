@@ -51,7 +51,7 @@ const tasksSlice = createSlice({
   },
 });
 
-// This makes all three generated action creators available to App.jsx.
+// This makes all 5 generated action creators available to App.jsx.
 export const { addTask, deleteTask, completeTask, editTask,toggleSelection} = tasksSlice.actions;
 
 export default tasksSlice.reducer;
