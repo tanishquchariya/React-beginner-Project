@@ -13,7 +13,11 @@ const App = () => {
     <>
       <Routes>
         <Route path="/" element={<Home />} />
+
+        {/* This is called a Layout Route. */}
         <Route element={<AdminLayout />}>
+        
+         {/* Child routes */}
           <Route path="/attendance" element={<Attendance />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/departments" element={<Departments />} />

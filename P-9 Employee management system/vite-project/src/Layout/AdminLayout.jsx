@@ -1,28 +1,23 @@
-// AdminLayout.jsx will be responsible for combining Sidebar, Navbar, and page content.
-
-import React from "react";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import { Outlet } from "react-router-dom";
 
-const AdminLayout = ({children}) => {
+const AdminLayout = () => {
   return (
-    <div>
-      <aside>
-        <nav>
-          <a href="/">Dashboard</a>
-          <a href="/employees">Employees</a>
-        </nav>
-      </aside>
-      <header>
-         Employee Management System
-      </header>
-      <main>
-        <Outlet/>
-      </main>
+    <div className="flex min-h-scree bg-slate-100">
+
       <Sidebar />
-      <Navbar />
-      <main></main>
+
+      <div className="flex-1">
+
+        <Navbar />
+
+        <main className="p-6">
+          <Outlet />
+        </main>
+
+      </div>
+
     </div>
   );
 };
