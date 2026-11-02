@@ -2,11 +2,11 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import AdminLayout from "./Layout/AdminLayout";
-import Attendance from "./pages/Attendance";
-import Dashboard from "./pages/Dashboard";
-import Departments from "./pages/Departments";
-import Employees from "./pages/Employees";
-import Payroll from "./pages/Payroll";
+import Attendance from "./pages/Attendance/Attendance";
+import Dashboard from "./pages/Dashboard/Dashboard";
+import Departments from "./pages/Departments/Departments";
+import Employees from "./pages/Employees/Employees";
+import Payroll from "./pages/Payroll/Payroll";
 import Home from "./pages/Home";
 const App = () => {
   return (
