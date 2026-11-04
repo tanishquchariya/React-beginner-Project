@@ -1,3 +1,4 @@
+import { TruckElectricIcon } from "lucide-react";
 import React, { useState } from "react";
 
 const EmployeeTable = () => {
@@ -25,16 +26,29 @@ const EmployeeTable = () => {
       status: "Inactive",
     },
   ];
-const filteredEmployees = employees.filter((employee) =>
-  employee.name.toLowerCase().includes(searchText.toLowerCase()) ||
-  employee.department.toLowerCase().includes(searchText.toLowerCase()) ||
-  employee.position.toLowerCase().includes(searchText.toLowerCase())
-);
+  const filteredEmployees = employees.filter(
+    (employee) =>
+      employee.name.toLowerCase().includes(searchText.toLowerCase()) ||
+      employee.department.toLowerCase().includes(searchText.toLowerCase()) ||
+      employee.position.toLowerCase().includes(searchText.toLowerCase()),
+  );
+
+  // Add functionalies according status
+  // const filterOnStatus = employees.filter((employee)=> {
+  //   if(Status === 'All'){
+  //     return {employee.name.toLowerCase().includes(searchText.toLowerCase()) ||
+  //     employee.department.toLowerCase().includes(searchText.toLowerCase()) ||
+  //     employee.position.toLowerCase().includes(searchText.toLowerCase()),};
+  //   }else if(employee.status === 'Inactive'){
+  //     return 
+  //   }else if(employee.status === 'Active') 
+     
+  // })
+
   return (
     <div className="bg-white rounded-xl shadow-sm p-5">
       <div className="flex items-center justify-between mb-5">
         <h2 className="text-xl font-bold">Recent Employees</h2>
-
         <input
           type="text"
           placeholder="Search employees..."
@@ -45,7 +59,6 @@ const filteredEmployees = employees.filter((employee) =>
           className="border border-slate-300 rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
-
       <div className="overflow-x-auto">
         <table className="w-full text-left">
           <thead>
@@ -70,7 +83,19 @@ const filteredEmployees = employees.filter((employee) =>
                   <td className="p-3 font-medium">{employee.name}</td>
                   <td className="p-3">{employee.department}</td>
                   <td className="p-3">{employee.position}</td>
-                  <td className="p-3">{/* Your existing status span */}</td>
+                  <td className="p-3">
+                    {
+                      <span
+                        className={
+                          employee.status === "Active"
+                            ? "rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700"
+                            : "rounded-full bg-red-100 px-3 py-1 text-xs font-medium text-red-700"
+                        }
+                      >
+                        {employee.status}
+                      </span>
+                    }
+                  </td>
                 </tr>
               ))
             )}

@@ -82,7 +82,7 @@ const Departments = () => {
         {departments.map((department) => (
           <div
             key={department.id}
-            className="rounded-xl border bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+            className="rounded-xl border bg-white p-5 shadow-sm transition hover:-translate-y-2 hover:shadow-md"
           >
             <div className="flex items-start justify-between">
               <div className={`rounded-lg p-3 ${department.color}`}>
