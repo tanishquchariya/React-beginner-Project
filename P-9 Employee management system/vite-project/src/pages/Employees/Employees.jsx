@@ -1,5 +1,11 @@
 import React, { useState, useMemo } from "react";
 import { Plus, Search, Eye, Pencil, Trash2, Users } from "lucide-react";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  addEmployee,
+  updateEmployee,
+  deleteEmployee,
+} from "../../features/employees/employeeSlice";
 
 const Employees = () => {
   // for add new Employees
@@ -12,58 +18,67 @@ const Employees = () => {
   const [status, setStatus] = useState("Active");
   const [searchText, setSearchText] = useState("");
   const [errors, setErrors] = useState({});
-  const [edit, setEdit] = useState(null)
+  const [edit, setEdit] = useState(null);
 
-  const [employees, setEmployees] = useState([
-    {
-      id: "EMP001",
-      name: "Rahul Sharma",
-      email: "rahul@gmail.com",
-      department: "Engineering",
-      position: "Frontend Developer",
-      joiningDate: "12 Jan 2025",
-      status: "Active",
-    },
-    {
-      id: "EMP002",
-      name: "Priya Verma",
-      email: "priya@gmail.com",
-      department: "HR",
-      position: "HR Manager",
-      joiningDate: "05 Mar 2024",
-      status: "Active",
-    },
-    {
-      id: "EMP003",
-      name: "Aman Singh",
-      email: "aman@gmail.com",
-      department: "Finance",
-      position: "Accountant",
-      joiningDate: "18 Jun 2025",
-      status: "Inactive",
-    },
-    {
-      id: "EMP004",
-      name: "Neha Gupta",
-      email: "neha@gmail.com",
-      department: "Marketing",
-      position: "Marketing Executive",
-      joiningDate: "20 Aug 2024",
-      status: "Active",
-    },
-  ]);
+  // const [employees, setEmployees] = useState([
+  //   {
+  //     id: "EMP001",
+  //     name: "Rahul Sharma",
+  //     email: "rahul@gmail.com",
+  //     department: "Engineering",
+  //     position: "Frontend Developer",
+  //     joiningDate: "12 Jan 2025",
+  //     status: "Active",
+  //   },
+  //   {
+  //     id: "EMP002",
+  //     name: "Priya Verma",
+  //     email: "priya@gmail.com",
+  //     department: "HR",
+  //     position: "HR Manager",
+  //     joiningDate: "05 Mar 2024",
+  //     status: "Active",
+  //   },
+  //   {
+  //     id: "EMP003",
+  //     name: "Aman Singh",
+  //     email: "aman@gmail.com",
+  //     department: "Finance",
+  //     position: "Accountant",
+  //     joiningDate: "18 Jun 2025",
+  //     status: "Inactive",
+  //   },
+  //   {
+  //     id: "EMP004",
+  //     name: "Neha Gupta",
+  //     email: "neha@gmail.com",
+  //     department: "Marketing",
+  //     position: "Marketing Executive",
+  //     joiningDate: "20 Aug 2024",
+  //     status: "Active",
+  //   },
+  // ]);
 
-  const filteredEmployees =  useMemo(() => employees.filter((employee) => {
-    const search = searchText.toLowerCase();
+  // 
+  const dispatch = useDispatch();
+  const employees = useSelector((state) => state.employees.items);
+  console.log("Employees from Redux:", employees);
 
-    return (
-      employee.name.toLowerCase().includes(search) ||
-      employee.email.toLowerCase().includes(search) ||
-      employee.department.toLowerCase().includes(search) ||
-      employee.position.toLowerCase().includes(search)
-    );
-  }), [employees]);
-  console.log(filteredEmployees, employees, 'filter list')
+  const filteredEmployees = useMemo(
+    () =>
+      employees.filter((employee) => {
+        const search = searchText.toLowerCase();
+
+        return (
+          employee.name.toLowerCase().includes(search) ||
+          employee.email.toLowerCase().includes(search) ||
+          employee.department.toLowerCase().includes(search) ||
+          employee.position.toLowerCase().includes(search)
+        );
+      }),
+    [employees, searchText],
+  );
+  console.log(filteredEmployees, employees, "filter list");
 
   const validateForm = () => {
     const newErrors = {};
@@ -88,18 +103,77 @@ const Employees = () => {
 
     return newErrors;
   };
+
+  // const handleSubmit = () => {
+  //   const validationErrors = validateForm();
+
+  //   setErrors(validationErrors);
+
+  //   // returns an array of object property names.
+  //   if (Object.keys(validationErrors).length > 0) {
+  //     return;
+  //   }
+
+  //   const newEmployee = {
+  //     id: edit || `EMP${String(employees.length + 1).padStart(3, "0")}`,
+  //     name: name.trim(),
+  //     email: email.trim(),
+  //     department,
+  //     position: position.trim(),
+  //     joiningDate,
+  //     status,
+  //   };
+  //   console.log(edit);
+
+  //   if (edit) {
+  //     // Update existing employee
+  //     const updatedEmployees = employees.map((employee) => {
+  //       if (employee.id === edit) {
+  //         return newEmployee;
+  //       }
+  //       return employee;
+  //     });
+  //     setEmployees(updatedEmployees);
+  //     console.log(updatedEmployees);
+  //   } else {
+  //     // Addd New Employee
+  //     setEmployees([...employees, newEmployee]);
+  //   }
+
+  //   // setEmployees((previousEmployees) => [...previousEmployees, newEmployee]);
+
+  //   // Reset form fields
+  //   setName("");
+  //   setEmail("");
+  //   setDepartment("Engineering");
+  //   setPosition("");
+  //   setJoiningDate("");
+  //   setStatus("Active");
+  //   setErrors({});
+
+  //   // Close modal
+  //   setShowForm(false);
+  // };
+
   const handleSubmit = () => {
     const validationErrors = validateForm();
 
     setErrors(validationErrors);
 
-    // returns an array of object property names.
     if (Object.keys(validationErrors).length > 0) {
       return;
     }
 
+    // Generate the next employee ID
+    const nextEmployeeNumber =
+      employees.reduce((maxNumber, employee) => {
+        const currentNumber = Number(employee.id.replace("EMP", ""));
+        return Math.max(maxNumber, currentNumber);
+      }, 0) + 1;
+
+    // Create employee object
     const newEmployee = {
-      id: edit || `EMP${String(employees.length + 1).padStart(3, "0")}`,
+      id: edit || `EMP${String(nextEmployeeNumber).padStart(3, "0")}`,
       name: name.trim(),
       email: email.trim(),
       department,
@@ -107,36 +181,20 @@ const Employees = () => {
       joiningDate,
       status,
     };
-    console.log(edit);
-    
-    if(edit){
+
+    console.log("Employee submitted:", newEmployee);
+
+    if (edit) {
       // Update existing employee
-      const updatedEmployees = employees.map((employee)=>{
-        
-        if(employee.id === edit){
-          return newEmployee;
-        }
-        return employee;
-      });
-      setEmployees(updatedEmployees, 'hii')
-      console.log(updatedEmployees);
-    }else{
-      // Addd New Employee
-      setEmployees([...employees,newEmployee])
+      dispatch(updateEmployee(newEmployee));
+    } else {
+      // Add new employee
+      dispatch(addEmployee(newEmployee));
     }
 
-    // setEmployees((previousEmployees) => [...previousEmployees, newEmployee]);
+    // Reset form
+    resetForm();
 
-    // Reset form fields
-    setName("");
-    setEmail("");
-    setDepartment("Engineering");
-    setPosition("");
-    setJoiningDate("");
-    setStatus("Active");
-    setErrors({});
-
-    // Close modal
     setShowForm(false);
   };
   const resetForm = () => {
@@ -161,27 +219,38 @@ const Employees = () => {
   ).length;
 
   // Delete Employee
+  // const handleDelete = (id) => {
+  //   const updatedEmployees = employees.filter((employee) => {
+  //     return employee.id !== id;
+  //   });
+  //   setEmployees(updatedEmployees);
+  // };
+  // Delete Employee
+ 
+
+  // Delete Employee by Redux method
   const handleDelete = (id) => {
-    const updatedEmployees = employees.filter((employee) => {
-      return employee.id !== id;
-    });
-    setEmployees(updatedEmployees);
+    
+    dispatch(deleteEmployee(id));
   };
 
   // Edit Employee
-  const handleEdit = (employee) =>{
+  const handleEdit = (employee) => {
     setEdit(employee.id);
     console.log(employee);
-    
+
     setName(employee.name);
     setEmail(employee.email);
     setDepartment(employee.department);
-    setPosition(employee.position)
-    setJoiningDate(employee.joiningDate)
+    setPosition(employee.position);
+    setJoiningDate(employee.joiningDate);
     setStatus(employee.status);
 
     setShowForm(true);
-  }
+  };
+
+  // const reduxEmployees = useSelector((state) => state.employees.items);
+  // console.log("Employees from Redux:", reduxEmployees);
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
@@ -195,7 +264,8 @@ const Employees = () => {
           onClick={() => {
             resetForm();
             setEdit(null);
-            setShowForm(true);}}
+            setShowForm(true);
+          }}
           className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-blue-700"
         >
           <Plus size={18} />
@@ -444,7 +514,9 @@ const Employees = () => {
                       <button
                         title="Edit"
                         className="text-slate-500 hover:text-blue-600"
-                        onClick={()=>{handleEdit(employee)}}
+                        onClick={() => {
+                          handleEdit(employee);
+                        }}
                       >
                         <Pencil size={17} />
                       </button>

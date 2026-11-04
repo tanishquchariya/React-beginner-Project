@@ -33,18 +33,6 @@ const EmployeeTable = () => {
       employee.position.toLowerCase().includes(searchText.toLowerCase()),
   );
 
-  // Add functionalies according status
-  // const filterOnStatus = employees.filter((employee)=> {
-  //   if(Status === 'All'){
-  //     return {employee.name.toLowerCase().includes(searchText.toLowerCase()) ||
-  //     employee.department.toLowerCase().includes(searchText.toLowerCase()) ||
-  //     employee.position.toLowerCase().includes(searchText.toLowerCase()),};
-  //   }else if(employee.status === 'Inactive'){
-  //     return 
-  //   }else if(employee.status === 'Active') 
-     
-  // })
-
   return (
     <div className="bg-white rounded-xl shadow-sm p-5">
       <div className="flex items-center justify-between mb-5">
