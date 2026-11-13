@@ -59,7 +59,8 @@ const Employees = () => {
   //   },
   // ]);
 
-  // 
+
+
   const dispatch = useDispatch();
   const employees = useSelector((state) => state.employees.items);
   console.log("Employees from Redux:", employees);
@@ -263,7 +264,7 @@ const Employees = () => {
         <button
           onClick={() => {
             resetForm();
-            setEdit(null);
+            setEdit();
             setShowForm(true);
           }}
           className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-blue-700"

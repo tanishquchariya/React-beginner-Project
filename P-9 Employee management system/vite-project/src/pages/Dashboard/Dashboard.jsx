@@ -7,8 +7,16 @@ import {
 
 import EmployeeTable from "./EmployeeTable";
 import StatCard from "../../components/StatCard";
+import { useSelector } from "react-redux"
+
 
 const Dashboard = () => {
+  const employees = useSelector((state)=>state.employees.items);
+  console.log("Dashboard employee : ", employees);
+
+  const totalEmployees = employees.length;
+  const activeEmployees = employees.filter((employee)=> employee.status === "Active").length;
+  const inactiveEmployees = employees.filter((employee) => employee.status === "Inactive").length;
   return (
     <div className="space-y-6">
 
@@ -19,11 +27,11 @@ const Dashboard = () => {
       {/* Statistics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
 
-        <StatCard title="Total Employees" value={120} icon={Users} />
+        <StatCard title="Total Employees" value={totalEmployees} icon={Users} />
 
-        <StatCard title="Active Employees" value={108} icon={UserCheck} />
+        <StatCard title="Active Employees" value={activeEmployees} icon={UserCheck} />
 
-        <StatCard title="Departments" value={8} icon={Building2} />
+        <StatCard title="Departments" value={inactiveEmployees} icon={Building2} />
 
         <StatCard title="Attendance Rate" value="96%" icon={CalendarCheck} />
 
@@ -35,5 +43,4 @@ const Dashboard = () => {
     </div>
   );
 };
-
 export default Dashboard;

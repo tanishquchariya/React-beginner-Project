@@ -7,7 +7,7 @@ const Home = () => {
 
       <p>Manage your employees efficiently.</p>
 
-      <Link to="/dashboard">
+      <Link to="/Dashboard">
         Go to Dashboard
       </Link>
     </div>
